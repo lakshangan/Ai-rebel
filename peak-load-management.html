@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peak Load Management</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #00796b;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #e0f7fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            background-color: #00796b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #004d40;
+        }
+
+        .threshold-settings {
+            margin-top: 20px;
+        }
+
+        .threshold-settings input[type="range"] {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Peak Load Management</h1>
+
+        <!-- Current Load Overview Section -->
+        <div class="section grid-container">
+            <div class="card">
+                <h2>Current Load</h2>
+                <div class="chart-container">
+                    <canvas id="currentLoadChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Peak Load</h2>
+                <div class="chart-container">
+                    <canvas id="peakLoadChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forecasting Section -->
+        <div class="section grid-container">
+            <div class="card">
+                <h2>Load Forecast</h2>
+                <div class="chart-container">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Scenario Analysis</h2>
+                <div class="chart-container">
+                    <canvas id="scenarioChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control and Optimization Section -->
+        <div class="section">
+            <h2>Optimization and Control</h2>
+            <div class="buttons">
+                <button onclick="applyOptimization()">Apply Optimization</button>
+                <button onclick="automateLoadControl()">Automate Load Control</button>
+            </div>
+        </div>
+
+        <!-- Threshold Settings Section -->
+        <div class="section threshold-settings">
+            <h2>Set Peak Load Threshold</h2>
+            <input type="range" min="0" max="100" value="75" id="thresholdRange">
+            <p>Threshold: <span id="thresholdValue">75</span>%</p>
+        </div>
+    </div>
+
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart.js setup for the Current Load chart
+        const currentLoadCtx = document.getElementById('currentLoadChart').getContext('2d');
+        const currentLoadChart = new Chart(currentLoadCtx, {
+            type: 'line',
+            data: {
+                labels: ['12 AM', '4 AM', '8 AM', '12 PM', '4 PM', '8 PM', '12 AM'],
+                datasets: [{
+                    label: 'Current Load (kW)',
+                    data: [45, 30, 60, 70, 90, 80, 50],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Chart.js setup for the Peak Load chart
+        const peakLoadCtx = document.getElementById('peakLoadChart').getContext('2d');
+        const peakLoadChart = new Chart(peakLoadCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                datasets: [{
+                    label: 'Peak Load (kW)',
+                    data: [80, 85, 90, 100, 95, 110, 120],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Chart.js setup for the Load Forecast chart
+        const forecastCtx = document.getElementById('forecastChart').getContext('2d');
+        const forecastChart = new Chart(forecastCtx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Load Forecast (kW)',
+                    data: [90, 100, 110, 120],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Chart.js setup for the Scenario Analysis chart
+        const scenarioCtx = document.getElementById('scenarioChart').getContext('2d');
+        const scenarioChart = new Chart(scenarioCtx, {
+            type: 'line',
+            data: {
+                labels: ['Scenario 1', 'Scenario 2', 'Scenario 3', 'Scenario 4'],
+                datasets: [{
+                    label: 'Load Under Scenarios (kW)',
+                    data: [70, 75, 80, 85],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Update threshold value
+        const thresholdRange = document.getElementById('thresholdRange');
+        const thresholdValue = document.getElementById('thresholdValue');
+
+        thresholdRange.addEventListener('input', () => {
+            thresholdValue.textContent = thresholdRange.value;
+        });
+
+        // Functions for buttons
+        function applyOptimization() {
+            alert('Optimization Applied!');
+        }
+
+        function automateLoadControl() {
+            alert('Load Control Automated!');
+        }
+    </script>
+</body>
+</html>

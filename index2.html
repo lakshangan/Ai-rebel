@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Rebel</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="intro">
+        <h1>Welcome to AI Rebel</h1>
+        <p>Start scrolling</p>
+    </div>
+    
+    <div class="section" id="section1">
+        <div class="content">
+            <h2>What is AI Rebel?</h2>
+            <p>
+                "AI Rebel" represents the next frontier in artificial intelligence—a system designed to challenge and push the boundaries of conventional AI thinking.
+            </p>
+        </div>
+    </div>
+
+    <div class="section" id="section2">
+        <div class="content">
+            <h2>Features of AI Rebel</h2>
+            <p>
+                Unlike traditional AI, which follows strict rules and patterns, AI Rebel dares to think outside the box, embracing creativity, unpredictability, and innovation.
+            </p>
+            <img src="img/ai-rebel2.jpg" alt="AI Features Image" class="ai-image">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('scroll', function () {
+            const intro = document.querySelector('.intro');
+            const sections = document.querySelectorAll('.section');
+            const scrollPos = window.scrollY;
+
+            // Fade out the intro section
+            if (scrollPos > 100) {
+                intro.style.opacity = 1 - scrollPos / 300;
+            } else {
+                intro.style.opacity = 1;
+            }
+
+            // Reveal sections as you scroll
+            sections.forEach(section => {
+                if (scrollPos + window.innerHeight > section.offsetTop + 100) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Consumption Dashboard</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --bg-color: #e0f7fa;
+            --text-color: #00796b;
+            --container-bg-color: #ffffff;
+            --section-bg-color: #b2dfdb;
+            --input-bg-color: #004d40;
+            --highlight-color: #00796b;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--highlight-color);
+            padding: 10px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            <!-- background-color: var(--container-bg-color); -->
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 18px;
+        }
+
+        h3 {
+            font-size: 14px;
+        }
+
+        .section {
+            background-color: var(--section-bg-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            margin-top: 0;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            background-color: var(--section-bg-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .chart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .energy-goal {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .energy-goal input[type="range"] {
+            width: 70%;
+            height: 20px;
+            border-radius: 10px;
+            background-color: var(--input-bg-color);
+            padding: 0;
+            margin: 0;
+        }
+
+        .energy-goal span {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .alert {
+            background-color: var(--section-bg-color);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .alert ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .alert li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .alert li:last-child {
+            border-bottom: none;
+        }
+
+        /* Toggle Button */
+        .toggle-container {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .toggle-container button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+
+        .toggle-container button:hover {
+            color: var(--highlight-color);
+        }
+
+
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+        }
+        
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+        
+        header .logo a {
+            color: #fff;
+            font-size: 1.8rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        
+        header nav ul li {
+            margin: 0 1rem;
+        }
+        
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        
+        header nav ul li a:hover {
+            color: #ff7e5f; /* Change color on hover */
+        }
+        
+    </style>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Energy consumption</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="energy-consumption.html">Energy Consumption</a></li>
+                    <li><a href="peak-load-management.html">Peak Load Management</a></li>
+                    <!-- <li><a href="real-time-monitoring.html">Real-Time Monitoring</a></li> -->
+                    <li><a href="settings.html">Settings</a></li>
+                    <li><a href="user-management.html">Users</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Energy Consumption Dashboard</h1>
+        <div class="section grid-container">
+            <div class="chart-container">
+                <canvas id="energyChart" class="chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="pieChart" class="chart"></canvas>
+            </div>
+        </div>
+        <div class="section energy-goal">
+            <span>Energy Goal</span>
+            <input type="range" min="0" max="100" value="50">
+        </div>
+        <div class="alert">
+            <ul id="alerts">
+                <!-- Alerts will be dynamically added here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js configuration for Line Chart
+        const ctxLine = document.getElementById('energyChart').getContext('2d');
+        const gradientLine = ctxLine.createLinearGradient(0, 0, 0, 400);
+        gradientLine.addColorStop(0, 'rgba(255, 159, 64, 0.5)');
+        gradientLine.addColorStop(1, 'rgba(75, 192, 192, 0.5)');
+
+        const energyChart = new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Energy Consumption (kWh)',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    backgroundColor: gradientLine,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+                    pointBorderColor: 'rgba(75, 192, 192, 1)',
+                    pointBorderWidth: 3,
+                    pointRadius: 5,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#333',
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        xPadding: 10,
+                        yPadding: 10,
+                        caretSize: 6,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return ` ${tooltipItem.formattedValue} kWh`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            borderDash: [10, 5],
+                            color: 'rgba(200, 200, 200, 0.2)'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 0 // Disable chart animation
+                }
+            }
+        });
+
+        // Chart.js configuration for Pie Chart
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+
+        const pieChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: ['Fans', 'Lights', 'Projectors', 'Other'],
+                datasets: [{
+                    data: [300, 150, 100, 50],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#333',
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        xPadding: 10,
+                        yPadding: 10,
+                        caretSize: 6
+                    },
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 2000
+                }
+            }
+        });
+
+        // Function to continuously adjust the Fans segment
+        let fanValue = 300;
+        let increasing = true;
+
+        function adjustFans() {
+            if (increasing) {
+                fanValue += 5;
+                if (fanValue > 350) {
+                    increasing = false;
+                }
+            } else {
+                fanValue -= 5;
+                if (fanValue < 250) {
+                    increasing = true;
+                }
+            }
+
+            const total = pieChart.data.datasets[0].data.reduce((sum, value) => sum + value, 0);
+            const fansIndex = pieChart.data.labels.indexOf('Fans');
+            const otherTotal = total - pieChart.data.datasets[0].data[fansIndex];
+            pieChart.data.datasets[0].data[fansIndex] = fanValue;
+            pieChart.data.datasets[0].data[pieChart.data.labels.indexOf('Other')] = 400 - fanValue - otherTotal;
+
+            pieChart.update();
+        }
+
+        // Adjust the Fans segment every second
+        setInterval(adjustFans, 1000);
+
+        // Function to update the line chart and alerts with new data
+        function updateCharts() {
+            // Line Chart: Add new data point
+            const newLabel = `Month ${energyChart.data.labels.length + 1}`;
+            const newValue = Math.floor(Math.random() * 100);
+
+            energyChart.data.labels.push(newLabel);
+            energyChart.data.datasets[0].data.push(newValue);
+
+            if (energyChart.data.labels.length > 7) {
+                energyChart.data.labels.shift();
+                energyChart.data.datasets[0].data.shift();
+            }
+
+            energyChart.update();
+        }
+
+        // Update the line chart every second
+        setInterval(updateCharts, 1000);
+
+        // Function to add alerts based on chart changes
+        function updateAlerts() {
+            const alerts = document.getElementById('alerts');
+            alerts.innerHTML = '';
+
+            if (pieChart.data.datasets[0].data[pieChart.data.labels.indexOf('Fans')] > 350) {
+                const alert = document.createElement('li');
+                alert.textContent = 'Warning: Fans consumption is very high!';
+                alerts.appendChild(alert);
+            }
+            if (energyChart.data.datasets[0].data[energyChart.data.datasets[0].data.length - 1] > 75) {
+                const alert = document.createElement('li');
+                alert.textContent = 'Alert: Recent energy consumption is high!';
+                alerts.appendChild(alert);
+            }
+            if (energyChart.data.datasets[0].data.length === 0) {
+                const alert = document.createElement('li');
+                alert.textContent = 'No data available for recent months!';
+                alerts.appendChild(alert);
+            }
+            if (pieChart.data.datasets[0].data[pieChart.data.labels.indexOf('Other')] < 50) {
+                const alert = document.createElement('li');
+                alert.textContent = 'Warning: Other consumption is very low!';
+                alerts.appendChild(alert);
+            }
+        }
+
+        // Update alerts every second
+        setInterval(updateAlerts, 1000);
+    </script>
+</body>
+</html>
