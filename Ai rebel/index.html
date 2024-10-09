@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai rebel</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        document.addEventListener('scroll', function () {
+            const sections = document.querySelectorAll('.section');
+            const scrollPos = window.scrollY + window.innerHeight / 2;
+        
+            sections.forEach(section => {
+                if (scrollPos > section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+        });
+        
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="energy-consumption.html">Energy Consumption</a></li>
+                    <li><a href="peak-load-management.html">Peak Load Management</a></li>
+                    <!-- <li><a href="real-time-monitoring.html">Real-Time Monitoring</a></li> -->
+                    <li><a href="settings.html">Settings</a></li>
+                    <li><a href="user-management.html">Users</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+        <h1>Welcome to Ai rebel</h1>
+        <p>Start scrolling</p>
+       
+        <div class="section" id="section1">
+            <div class="content">
+                <h2>What is AI Rebel?</h2>
+                <p>
+                    "AI Rebel" represents the next frontier in artificial intelligence—a system designed to challenge and push the boundaries of conventional AI thinking.
+                </p>
+                <!-- <img src="./img/1292000.jpg" alt="AI Rebel Image" class="ai-image"> -->
+            </div>
+        </div>
+    
+        <div class="section" id="section2">
+            <div class="content">
+                <h2>Features of AI Rebel</h2>
+                <p>
+                    Unlike traditional AI, which follows strict rules and patterns, AI Rebel dares to think outside the box, embracing creativity, unpredictability, and innovation.
+                </p>
+                <img src="img/ai-rebel2.jpg" alt="AI Features Image" class="ai-image">
+            </div>
+        </div>
+    
+    
+</body>
+</html>

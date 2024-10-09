@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Energy Management System</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --bg-color: black;
+            --text-color: #333;
+            --container-bg-color: #ffffff;
+            --notification-bg-color: #00796b;
+            --highlight-color: #ffffff;
+            --animation-duration: 0.5s;
+        }
+
+        body {
+            background-color: black;
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container1 {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--container-bg-color);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        .notification {
+            background-color: var(--notification-bg-color);
+            color: var(--highlight-color);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp var(--animation-duration) ease-out forwards;
+        }
+
+        .notification:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+
+        .notification:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes fadeInSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Button Style */
+        .btn {
+            background-color: var(--notification-bg-color);
+            color: var(--highlight-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .btn:hover {
+            background-color: #004d40;
+        }
+
+
+
+        
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+        }
+        
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+        
+        header .logo a {
+            color: #fff;
+            font-size: 1.8rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        
+        header nav ul li {
+            margin: 0 1rem;
+        }
+        
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        
+        header nav ul li a:hover {
+            color: #ff7e5f; /* Change color on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="energy-consumption.html">Energy Consumption</a></li>
+                    <li><a href="peak-load-management.html">Peak Load Management</a></li>
+                    <!-- <li><a href="real-time-monitoring.html">Real-Time Monitoring</a></li> -->
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                    <li><a href="user-management.html">Users</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container1">
+        <h1>Notifications</h1>
+
+        <button class="btn" onclick="addNotification()">Add Notification</button>
+
+        <div id="notification-container">
+            <!-- Notifications will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to create and add a notification
+        function addNotification() {
+            const container = document.getElementById('notification-container');
+
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+
+            notification.textContent = 'This is a new notification.';
+
+            container.appendChild(notification);
+        }
+
+        // Optionally add some initial notifications
+        for (let i = 0; i < 5; i++) {
+            setTimeout(addNotification, i * 1000); // Staggered initial notifications
+        }
+    </script>
+</body>
+</html>
